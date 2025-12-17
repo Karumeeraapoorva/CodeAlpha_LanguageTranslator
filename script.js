@@ -5,15 +5,17 @@ async function translateText() {
   const output = document.getElementById("outputText");
 
   if (text === "") {
-    alert("Please enter some text");
+    alert("Please enter text");
     return;
   }
 
   output.value = "Translating...";
 
+  const url = "https://libretranslate.com/translate";
+
   try {
     const response = await fetch(
-      "https://translate.argosopentech.com/translate",
+      "https://api.allorigins.win/raw?url=" + encodeURIComponent(url),
       {
         method: "POST",
         headers: {
@@ -29,13 +31,9 @@ async function translateText() {
     );
 
     const data = await response.json();
-
-    if (data.translatedText) {
-      output.value = data.translatedText;
-    } else {
-      output.value = "Translation not available.";
-    }
+    output.value = data.translatedText;
   } catch (error) {
     output.value = "Translation failed. Please try again.";
   }
 }
+
