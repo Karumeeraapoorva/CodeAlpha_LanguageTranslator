@@ -12,21 +12,29 @@ async function translateText() {
   output.value = "Translating...";
 
   try {
-    const response = await fetch("https://libretranslate.de/translate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        q: text,
-        source: source,
-        target: target,
-        format: "text"
-      })
-    });
+    const response = await fetch(
+      "https://translate.argosopentech.com/translate",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          q: text,
+          source: source,
+          target: target,
+          format: "text"
+        })
+      }
+    );
 
     const data = await response.json();
-    output.value = data.translatedText;
+
+    if (data.translatedText) {
+      output.value = data.translatedText;
+    } else {
+      output.value = "Translation not available.";
+    }
   } catch (error) {
     output.value = "Translation failed. Please try again.";
   }
