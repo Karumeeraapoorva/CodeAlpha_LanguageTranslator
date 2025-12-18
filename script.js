@@ -11,29 +11,18 @@ async function translateText() {
 
   output.value = "Translating...";
 
-  const url = "https://libretranslate.com/translate";
-
   try {
     const response = await fetch(
-      "https://api.allorigins.win/raw?url=" + encodeURIComponent(url),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          q: text,
-          source: source,
-          target: target,
-          format: "text"
-        })
-      }
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(
+        text
+      )}&langpair=${source}|${target}`
     );
 
     const data = await response.json();
-    output.value = data.translatedText;
-  } catch (error) {
-    output.value = "Translation failed. Please try again.";
+
+    output.value = data.responseData.translatedText;
+  } catch (err) {
+    output.value = "Translation failed.";
   }
 }
 
